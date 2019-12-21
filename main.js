@@ -20,10 +20,34 @@ function restoreHDWallet(mnemonic) {
     return ethers.Wallet.fromMnemonic(mnemonic);
 }
 
+function generateMnemonic() {
+    let randomEntropyBytes = ethers.utils.randomBytes(16);
+    return ethers.utils.HDNode.entropyToMnemonic(randomEntropyBytes);
+}
+
+/**
+ * Summary  Generate a random HD node.
+ * Description  Generates a random HD node from the ethers library.
+ */
+function generateRandomHDNode() {
+    let mnemonic = generateMnemonic();
+    return ethers.utils.HDNode.fromMnemonic(mnemonic);
+}
+
+/**
+ * Summary  Generate a random HD wallet.
+ * Description  Generate a random HD wallet from the ethers library.
+ */
+function generateRandomHDWallet() {
+    return ethers.Wallet.createRandom();
+}
+
 function testApp() {
     let mnemonic = "upset fuel enhance depart portion hope core animal innocent will athlete snack";
     console.log(restoreHDNode(mnemonic));
     console.log(restoreHDWallet(mnemonic));
+    console.log(generateRandomHDNode());
+    console.log(generateRandomHDWallet());
 }
 
 testApp();
