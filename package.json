@@ -2,7 +2,7 @@
   "name": "ethereum-hd-wallet",
   "version": "1.0.0",
   "description": "This exercise will focus on the concept of hierarchical wallets (HD Wallets), based on BIP39 and BIP44 specs. ",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
