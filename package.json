@@ -1,0 +1,22 @@
+{
+  "name": "ethereum-hd-wallet",
+  "version": "1.0.0",
+  "description": "This exercise will focus on the concept of hierarchical wallets (HD Wallets), based on BIP39 and BIP44 specs. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denismp/ethereum-hd-wallet.git"
+  },
+  "author": "Denis Putnam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denismp/ethereum-hd-wallet/issues"
+  },
+  "homepage": "https://github.com/denismp/ethereum-hd-wallet#readme",
+  "dependencies": {
+    "ethers": "^4.0.41"
+  }
+}
