@@ -61,7 +61,7 @@ async function saveWalletAsJson(wallet, password) {
     let wallet = ethers.Wallet.createRandom();
     let password = "p@$$word";
     let json = await saveWalletAsJson(wallet, password);
-    console.log('Save WalletAsJson='+json);
+    console.log('Save WalletAsJson=' + json);
 })();
 
 /**
@@ -88,6 +88,12 @@ async function decryptWallet(json, password) {
     console.log(walletDecrypted);
 })();
 
+/**
+ * Summary  Derive Keys from HD Wallet.
+ * Description  Derive keys (and their associated addresses) from HD Wallet by given derivation path.
+ * @param {*} mnemonic 
+ * @param {*} derivationPath 
+ */
 function deriveFiveWalletsFromHdNode(mnemonic, derivationPath) {
     let wallets = [];
 
@@ -100,6 +106,43 @@ function deriveFiveWalletsFromHdNode(mnemonic, derivationPath) {
     return wallets;
 }
 
+/**
+ * Summary  Sign a Transaction.
+ * Description  Sign a transaction with a given recipient address and ether value.
+ * @param {*} wallet 
+ * @param {string} toAddress 
+ * @param {string} value 
+ */
+async function signTransaction(wallet, toAddress, value) {
+    let transaction = {
+        nonce: 0,
+        gasLimit: 21000,
+        gasPrice: ethers.utils.bigNumberify("2000000000"),
+        to: toAddress,
+        value: ethers.utils.parseEther(value),
+        data: "0x"
+    };
+    return wallet.sign(transaction);
+
+}
+
+/**
+ * Summary  Sign My transction.
+ * Description  Sign a transaction in the given wallet, with the toAddress, and value.
+ * @param {*} wallet 
+ * @param {string} toAddress 
+ * @param {string} value 
+ */
+async function signMyTransaction(wallet, toAddress, value) {
+    try {
+        let signedTransaction = await signTransaction(wallet, toAddress, value);
+        console.log("Signed Transaction:\n" + signedTransaction);   
+    } catch(e) {
+        console.log('Error: ', e.message);
+    }
+ 
+}
+
 function testApp() {
     let mnemonic = "upset fuel enhance depart portion hope core animal innocent will athlete snack";
     console.log('Restore HDNode:');
@@ -110,10 +153,18 @@ function testApp() {
     console.log(generateRandomHDNode());
     console.log('Generate RandomHDWallet:');
     console.log(generateRandomHDWallet());
-    let mnemonic2 = 'upset fuel enhance depart portion hope core animal innocent will athlete snack';
+
     let derivationPath = "m/44'/60'/0'/0";
     console.log('DeriveFiveWalletsFromHdNode() results:')
-    console.log(deriveFiveWalletsFromHdNode(mnemonic2, derivationPath));
+    let wallets = deriveFiveWalletsFromHdNode(mnemonic, derivationPath);
+    console.log(wallets);
+
+    /**
+     * Take the second of the derived wallets and sign a transaction with a given recipient address and ether value. 
+     */
+    let recipient = "0x933b946c4fec43372c5580096408d25b3c7936c5"; let value = "1.0";
+    let signedTransaction = signMyTransaction(wallets[1], recipient, value);
+    console.log("Signed Transaction:\n" + signedTransaction);
 
 }
 
