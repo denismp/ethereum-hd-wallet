@@ -52,7 +52,16 @@ async function saveWalletAsJson(wallet, password) {
     return wallet.encrypt(password);
 }
 
-
+/**
+* Summary  Create a random wallet.
+* Description  Creates a random wellet and saves it as json.
+*/
+(async () => {
+    let wallet = ethers.Wallet.createRandom();
+    let password = "p@$$word";
+    let json = await saveWalletAsJson(wallet, password);
+    console.log(json);
+})();
 
 function testApp() {
     let mnemonic = "upset fuel enhance depart portion hope core animal innocent will athlete snack";
@@ -60,16 +69,6 @@ function testApp() {
     console.log(restoreHDWallet(mnemonic));
     console.log(generateRandomHDNode());
     console.log(generateRandomHDWallet());
-    /**
-    * Summary  Create a random wallet.
-    * Description  Creates a random wellet and saves it as json.
-    */
-    (async () => {
-        let wallet = ethers.Wallet.createRandom();
-        let password = "p@$$word";
-        let json = await saveWalletAsJson(wallet, password);
-        console.log(json);
-    })();
 }
 
 testApp();
