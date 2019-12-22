@@ -42,12 +42,34 @@ function generateRandomHDWallet() {
     return ethers.Wallet.createRandom();
 }
 
+/**
+ * Summary  Save a wallet.
+ * Description  Save the given wallet.
+ * @param {*} wallet 
+ * @param {string} password 
+ */
+async function saveWalletAsJson(wallet, password) {
+    return wallet.encrypt(password);
+}
+
+
+
 function testApp() {
     let mnemonic = "upset fuel enhance depart portion hope core animal innocent will athlete snack";
     console.log(restoreHDNode(mnemonic));
     console.log(restoreHDWallet(mnemonic));
     console.log(generateRandomHDNode());
     console.log(generateRandomHDWallet());
+    /**
+    * Summary  Create a random wallet.
+    * Description  Creates a random wellet and saves it as json.
+    */
+    (async () => {
+        let wallet = ethers.Wallet.createRandom();
+        let password = "p@$$word";
+        let json = await saveWalletAsJson(wallet, password);
+        console.log(json);
+    })();
 }
 
 testApp();
