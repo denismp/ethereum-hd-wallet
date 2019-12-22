@@ -53,22 +53,68 @@ async function saveWalletAsJson(wallet, password) {
 }
 
 /**
-* Summary  Create a random wallet.
-* Description  Creates a random wellet and saves it as json.
+* Summary  Encrypt and save given HD node to a JSON document by password.
+* Description   To save the HD Wallet in an encrypted JSON format, you need the Wallet to 
+                include the mnemonic phrase. The mnemonic is encrypted in the "x-ethers" part of the json.
 */
 (async () => {
     let wallet = ethers.Wallet.createRandom();
     let password = "p@$$word";
     let json = await saveWalletAsJson(wallet, password);
-    console.log(json);
+    console.log('Save WalletAsJson='+json);
 })();
+
+/**
+ * Summary  Decrypt json wallet.
+ * Description  Using the given json and password, decryt as a wallet.
+ * @param {string} json 
+ * @param {string} password 
+ */
+async function decryptWallet(json, password) {
+    return ethers.Wallet.fromEncryptedJson(json, password);
+}
+
+/**
+ * Summary  Load HD Wallet from JSON.
+ * Description  Decrypt and load an HD node from a JSON document using a password. 
+ */
+(async () => {
+    let wallet = ethers.Wallet.createRandom();
+    let password = "p@$$word";
+    let json = await saveWalletAsJson(wallet, password);
+
+    let walletDecrypted = await decryptWallet(json, password);
+    console.log('WalletDecrypted:')
+    console.log(walletDecrypted);
+})();
+
+function deriveFiveWalletsFromHdNode(mnemonic, derivationPath) {
+    let wallets = [];
+
+    for (let i = 0; i < 5; i++) {
+        let hdNode = ethers.utils.HDNode.fromMnemonic(mnemonic).derivePath(derivationPath + "/" + i);
+        console.log(hdNode);
+        let wallet = new ethers.Wallet(hdNode.privateKey);
+        wallets.push(wallet);
+    }
+    return wallets;
+}
 
 function testApp() {
     let mnemonic = "upset fuel enhance depart portion hope core animal innocent will athlete snack";
+    console.log('Restore HDNode:');
     console.log(restoreHDNode(mnemonic));
+    console.log('Restore HDWallet:');
     console.log(restoreHDWallet(mnemonic));
+    console.log('RandomHDNode:');
     console.log(generateRandomHDNode());
+    console.log('Generate RandomHDWallet:');
     console.log(generateRandomHDWallet());
+    let mnemonic2 = 'upset fuel enhance depart portion hope core animal innocent will athlete snack';
+    let derivationPath = "m/44'/60'/0'/0";
+    console.log('DeriveFiveWalletsFromHdNode() results:')
+    console.log(deriveFiveWalletsFromHdNode(mnemonic2, derivationPath));
+
 }
 
 testApp();
