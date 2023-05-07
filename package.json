@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/denismp/ethereum-hd-wallet#readme",
   "dependencies": {
-    "ethers": "^4.0.41"
+    "ethers": "^4.0.49"
   }
 }
